@@ -29,6 +29,24 @@ class Address(Base):
         return {}
 
 ## Draw from SQLAlchemy base
+class User(Base):
+    __tablename__="user"
+    id = Column(Integer,primary_key=True)
+    username = Column (String(30), nullable=False)
+    firstname =Column (String(30))
+    lastame =Column (String(30))
+    email = Column(String(40) , nullable=False ,unique=True)
+    comments=relationship("Comment",back_populates="author_realtionship")
+
+
+class Comment(Base):
+    __tablename__="comment"
+    id = Column(Integer,primary_key=True)
+    comment_text = Column (String(200), nullable=False)
+    author=Column(Integer,ForeignKey("user.id"))
+    author_relationship=relationship("User",back_populates="comments")
+
+
 try:
     result = render_er(Base, 'diagram.png')
     print("Success! Check the diagram.png file")
